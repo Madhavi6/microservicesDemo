@@ -11,7 +11,7 @@ permissions:
 
 env:
   AZURE_REGION: 'eastus'
-  ACR_NAME: 'myazcontregistry'
+  ACR_NAME: 'devopscontRegistry'
   RESOURCE_GROUP_NAME: 'myResourceGroup'
 
 
@@ -51,7 +51,9 @@ jobs:
       - name: Log in to Azure
         uses: azure/login@v1.4.7
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
       - name: Log in to Azure Container Registry
