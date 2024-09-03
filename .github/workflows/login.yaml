@@ -1,18 +1,29 @@
-
-name: Login Images
+name: Build and Push Docker Images
 
 on: 
   push:
     branches:
-      - dev
+      - dev-new
 
 permissions:
   id-token: write
   contents: read
 
-jobs:
-  login:
+env:
+  AZURE_REGION: 'eastus'
+  ACR_NAME: 'devopscontRegistry'
+  RESOURCE_GROUP_NAME: 'myResourceGroup'
 
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60  
+    strategy:
+      matrix:
+        service:
+          - src/shoppingassistantservice
+    outputs:
+      images: ${{ steps.set-images-output.outputs.images }} 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -31,3 +42,16 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Log in to Azure Container Registry
+        run: |
+          az acr login --name ${{ env.ACR_NAME }}
+
+      
+
+      - id: set-images-output 
+        run: echo "images=$(echo ${{ matrix.service }} | sed 's/src\///g' | sed 's/\/src//g')" >> $GITHUB_OUTPUT
+
+      - name: Azure CLI logout
+        run: |
+          az logout
