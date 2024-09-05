@@ -3,16 +3,17 @@ name: Build and Push Docker Images
 on: 
   push:
     branches:
-      - dev-new
+      - dev-NEW
 
 permissions:
   id-token: write
   contents: read
 
 env:
-  AZURE_REGION: 'australiaeast'
-  ACR_NAME: 'skilltechregistry'
-  RESOURCE_GROUP_NAME: 'microservices-demo-rg'
+  AZURE_REGION: 'eastus'
+  ACR_NAME: 'devopscontRegistry'
+  RESOURCE_GROUP_NAME: 'myResourceGroup'
+
 
 jobs:
   build-and-push:
