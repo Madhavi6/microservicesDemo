@@ -3,7 +3,7 @@ name: lOGIN Images
 on: 
   push:
     branches:
-      - dev
+      - dev--main
 
 jobs:
   login:
