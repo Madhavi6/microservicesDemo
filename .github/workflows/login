@@ -3,7 +3,7 @@ name: Login Images
 on: 
   push:
     branches:
-      - dev
+      - dev-main
 
 permissions:
   id-token: write
